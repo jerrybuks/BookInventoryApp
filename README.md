@@ -1,2 +1,2 @@
-# BoilerPlateNodeExpressMongo
-A boiler plate for starting, node, express, mongo
+# BookInventoryApp
+A book Inventory Application 
