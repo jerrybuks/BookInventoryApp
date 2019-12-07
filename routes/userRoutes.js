@@ -12,10 +12,10 @@ module.exports = function() {
   var authCtl = new authController();
 
   //call up your userRoutes here
-  /* 
+   
   router.post("/signup", signUpValidation, authCtl.signUp);
   router.post("/login", loginValidation, authCtl.login);
   router.get("/login", auth, authCtl.getLoggedInUser);
+  
   return router;
-  */
 };

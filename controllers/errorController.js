@@ -1,4 +1,6 @@
 const AppError = require('../utils/appError');
+const config = require('config');
+const environ = config.get("NODE_ENV")
 
 const handleCastErrorDB = err => {
   const message = `Invalid ${err.path}: ${err.value}.`;
@@ -6,9 +8,9 @@ const handleCastErrorDB = err => {
 };
 
 const handleDuplicateFieldsDB = err => {
-  const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+  const value = err.message.errmsg.match(/(["'])(\\?.)*?\1/)[0];
 
-  const message = `Duplicate field value: ${value}. Please use another value!`;
+  const message = `Value already exists: ${value}. Please use another value!`;
   return new AppError(message, 400);
 };
 
@@ -46,6 +48,7 @@ const sendErrorProd = (err, res) => {
     // Programming or other unknown error: don't leak error details
   } else {
     // 1) Log error
+   
     console.error('ERROR 💥', err);
 
     // 2) Send generic message
@@ -58,21 +61,27 @@ const sendErrorProd = (err, res) => {
 
 module.exports = (err, req, res, next) => {
 
-
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  if (process.env.NODE_ENV === 'development') {
+  if (environ === 'development') {
     sendErrorDev(err, res);
-  } else if (process.env.NODE_ENV === 'production') {
-    let error;
-    console.log(err)
-    if (err.name === 'CastError') error = handleCastErrorDB(err);
-    if (err.code === 11000) error = handleDuplicateFieldsDB(err);
-    if (err.name === 'ValidationError') error = handleValidationErrorDB(err);
-    if (err.name === 'JsonWebTokenError') error = handleJWTError();
-    if (err.name === 'TokenExpiredError') error = handleJWTExpiredError();
+  } else if (environ === 'production') {
+    let error; 
 
-    sendErrorProd((err || error), res);
+    if(err.message) {
+      if (err.message.name === 'CastError') error = handleCastErrorDB(err);
+      if (err.message.code === 11000) error = handleDuplicateFieldsDB(err);
+      if (err.message.name === 'JsonWebTokenError') error = handleJWTError();
+      if (err.message.name === 'TokenExpiredError') error = handleJWTExpiredError();
+      if (err.message.name === 'ValidationError') error = handleValidationErrorDB(err);
+    }
+
+    if(error) {
+      return sendErrorProd(error, res);
+    } else {
+     return sendErrorProd((err), res);
+    }
+    
   }
 };
