@@ -10,8 +10,11 @@ const secret = config.get("jwtSecret")
 
 module.exports = function authController() {
 	this.signUp = (req, res, next) => {
+		console.log(req)
 		const errors = validationResult(req);
+		console.log(errors)
 		if (!errors.isEmpty()) {
+			console.log("get in ")
 			return next(new AppError(errors, 400));
 		}
 		bcrypt.hash(req.body.password,10, (err, hash) => {
