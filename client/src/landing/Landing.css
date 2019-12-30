@@ -1,0 +1,27 @@
+
+.landing-logoContainer {
+    display: flex;
+    align-items: center;
+    width: 50%;
+  }
+  .landing-logoContainer img {
+    width: 100%;
+  }
+  .landing-header {
+    min-height: 100vh;
+    display: flex;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  .landing-textBlock{
+    width: 35%;
+    line-height: 4vw;
+    margin: 0 auto;
+    color: var(--primary-color);
+    margin-top: 10%;
+  }
+  .landing-btnGrp {
+      display: flex;
+      justify-content: center;
+  }
+ 

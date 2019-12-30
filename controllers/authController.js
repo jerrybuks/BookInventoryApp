@@ -10,7 +10,7 @@ const secret = config.get("jwtSecret")
 
 module.exports = function authController() {
 	this.signUp = (req, res, next) => {
-		console.log(req)
+		console.log(req.body)
 		const errors = validationResult(req);
 		console.log(errors)
 		if (!errors.isEmpty()) {
@@ -20,9 +20,16 @@ module.exports = function authController() {
 		bcrypt.hash(req.body.password,10, (err, hash) => {
 			signUpUser(req.body, hash)
 				.then((user) => {
+
+					const token = jwt.sign(
+						{ email: req.body.email, id : user._id},
+						secret,
+						{ expiresIn: '1h' }
+					)
 					res.status(200).json({
 						status : true,
-						message: "User was successfully created"
+						message: "User was successfully created",
+						token
 					})
 				})
 				.catch(error => {
@@ -67,6 +74,7 @@ module.exports = function authController() {
 			})
 	};
 	this.getLoggedInUser = (req, res, next) => {
+		console.log("Looooookey",req.user)
 		findUserWithId(req.user)
 			.then(user => {
 				if (!user) { 
@@ -80,6 +88,7 @@ module.exports = function authController() {
 				}
 			})
 			.catch(error => {
+				console.log(error)
 				return next(new AppError(error, 500));
 			})
 	}

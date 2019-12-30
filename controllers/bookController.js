@@ -21,6 +21,7 @@ module.exports = function authController() {
 
 	this.addBook = (req, res, next) => {
         const errors = validationResult(req)
+        console.log("hiiiiiiii",req.body)
         if(!errors.isEmpty()) {
             return next(new AppError(errors, 400));
         }

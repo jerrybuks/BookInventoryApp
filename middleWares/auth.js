@@ -5,6 +5,7 @@ const secret = config.get("jwtSecret")
 
 module.exports = (req, res, next) => {
     let token = req.header('X-auth-token');
+    console.log("heeyyyy",token)
     try {
         const decoded = jwt.verify(token, secret);
         if (decoded.exp > Date.now() / 1000) {
@@ -15,6 +16,7 @@ module.exports = (req, res, next) => {
 		}
 
     } catch (err) {
+        console.log(err)
         if (err) {
 			return next(new AppError(err, 402));
 		}

@@ -1,0 +1,88 @@
+* {
+  font-family: 'Pavanam', sans-serif;
+}
+:root {
+  --text-color: #4F4F4F;
+  --border-color: #C4C4C4;
+  --primary-color: #3d4be4;
+  --primary-color-shade:#4285f4;
+  --dark-color: #333333;
+  --light-color: #f4f4f4;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+  --white-color: #ffffff;
+}
+
+.App {
+  /* text-align: center; */
+  /* background: var(--primary-color-shade); */
+}
+a {
+  text-decoration: none;
+  color: var( --primary-color);
+}
+button:focus {outline:0;}
+
+.alert {
+  position: absolute;
+  right: .5%;
+  padding: 0.7rem 1.5rem;
+  opacity: 0.9;
+  background: var(--light-color);
+  color: #333;
+  float: right;
+  margin-left: 55%;
+  margin-top: 15px;
+  margin-right: 8%;
+  /* grid-column : 2/4; */
+  border-radius: 10px;
+  text-align: center;
+  height: fit-content;
+  /* width: 75%; */
+}
+
+
+.alert-primary {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.alert-light {
+  background: var(--light-color);
+  color: #333;
+}
+
+.alert-dark {
+  background: var(--dark-color);
+  color: #fff;
+}
+
+.alert-danger {
+  background: var(--danger-color);
+  color: #fff;
+}
+
+.alert-success {
+  background: var(--success-color);
+  color: #fff;
+}
+
+.alert-white {
+  background: #fff;
+  color: #333;
+  border: #ccc solid 1px;
+}
+.bg-white {
+  background: var(--white-color);
+}
+.bg-primaryShade {
+  background: var(--primary-color-shade);
+}
+
+.utils-pd-small {
+  padding: 2rem;
+}
+.align-center {
+  display: flex;
+  justify-content: center;
+}
