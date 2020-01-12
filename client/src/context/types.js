@@ -9,6 +9,7 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const ADD_BOOK = 'ADD_BOOK';
+export const GET_BOOKS = 'GET_BOOKS';
 export const BOOK_ERROR = 'BOOK_ERROR';
 export const CLEAR_BOOK = 'CLEAR_BOOK';
 

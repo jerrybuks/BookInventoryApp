@@ -1,0 +1,28 @@
+.title {
+    text-align: center;
+    font-family: arial, sans-serif;
+  }
+  
+  .tableData {
+    text-align: left;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .tableData td, .tableData th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .tableData tr:nth-child(even){background-color: #f2f2f2;}
+  
+  .tableData tr:hover {background-color: #ddd;}
+  
+  .tableData th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: var(--primary-color-shade);
+    color: white;
+  }

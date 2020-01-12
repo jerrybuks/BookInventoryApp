@@ -82,7 +82,16 @@ button:focus {outline:0;}
 .utils-pd-small {
   padding: 2rem;
 }
+.utils-mg-bt-big {
+  margin-bottom: 4rem;
+}
+.utils-mg-bt-small {
+  margin-bottom: 2rem;
+}
 .align-center {
   display: flex;
   justify-content: center;
+}
+.text-center {
+  text-align: center;
 }
