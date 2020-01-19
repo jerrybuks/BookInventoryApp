@@ -45,7 +45,6 @@ export default function Login(props) {
     return (
         <div className="form-Container">
             <FormNavBar />
-            <Alerts />
              <form onSubmit={onSubmit}>
                 <h2>Welcome Back!</h2>
                 <fieldset>

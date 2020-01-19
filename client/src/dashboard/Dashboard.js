@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
+import { Link } from "react-router-dom";
 import AuthContext from '../context/auth/authContext';
 import Card from '../common/card/Card';
 import Table from '../common/table/Table';
@@ -12,9 +13,9 @@ export default function Dashboard({books}) {
     const defaultBookProp = []
     if(books.length > 0) {
         for(let i = books.length-1; i>=0; i--) {
-            const { ISBN, bookTitle, author, NoOfCopies, categoryOfBook } = books[i];
+            const { ISBN, bookTitle, author, NoOfCopies, categoryOfBook, _id } = books[i];
             defaultBookProp.push({
-                ISBN,
+                ISBN: (<Link to={`/viewInventories/${_id }`}>{ISBN}</Link>),
                 bookTitle,
                 author,
                 NoOfCopies,
@@ -25,8 +26,8 @@ export default function Dashboard({books}) {
     }
     const tableHeader = ["ISBN","bookTitle","author","NoOfCopies","categoryOfBook"]
 	return (
-		<div >
-            <div className="utils-mg-bt-big">
+		<div className="utils-pd-vsmall">
+            <div className="utils-mg-bt-big utils-mg-tp-small">
             <Card>
 				<h1>Hello {userName},</h1>
 				<Card>

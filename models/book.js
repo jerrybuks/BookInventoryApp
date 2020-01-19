@@ -5,7 +5,7 @@ const bookSchema = new Schema({
     user : { type : mongoose.Schema.Types.ObjectId, ref : 'User'},
     bookTitle: { type: String, required: true},
     categoryOfBook: { type: String, required : true },
-    ISBN: { type: String, required : true, index: {unique: true, dropDups: true} },
+    ISBN: { type: String, required : true, unique : true },
     author: { type: String, required : true },
     edition: { type: String, required : true },
     NoOfCopies : {type : String, required : true},

@@ -12,7 +12,6 @@ import Alerts from './common/alert/Alerts';
 import SideNav from './sideNav/SideNav';
 import BookState from './context/book/BookState';
 
-
 function App(props) {
   console.log(props)
   return (
@@ -20,13 +19,14 @@ function App(props) {
       <AuthState>
         <BookState>
           <div className="App">
+          <Alerts />
             <Router>
               <Switch>
                 {/* <PrivateRoute exact path="/dashboard" component={SideNav} /> */}
                 <PrivateRoute exact path="/dashboard" component={SideNav} />
                 <PrivateRoute exact path="/viewInventories" component={SideNav} />
                 <PrivateRoute exact path="/addInventory" component={SideNav} />
-
+                <PrivateRoute exact path="/viewInventories/:id" component={SideNav} />
                 <Route exact path="/" component={Landing} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />

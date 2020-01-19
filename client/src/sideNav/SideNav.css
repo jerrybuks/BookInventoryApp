@@ -22,3 +22,25 @@
     color: rgb(68, 253, 133);
     outline: 0;
 }
+@media(max-width: 750px) {
+    .sideNav {
+        width: 45%;
+        z-index: 2;
+        position: absolute;
+        left: 0;
+        /* display: none; */
+    }
+    .ham-container{
+        position: absolute;
+        right: 15%;
+    }
+    .ham-menu { display: inline-block; position: relative; margin: 35px 0; } /* margin = (width-height)/2 */
+    .ham-menu, .ham-menu::before, .ham-menu::after {     
+        width: 40px;
+        height: 5px;
+        border-radius: 7px;
+        background-color: black;
+        position: fixed; }
+    .ham-menu::before, .ham-menu::after { content: ""; display: block; position: absolute; }
+    .ham-menu::before { bottom: 200%; } .ham-menu::after { top: 200%; }
+  }

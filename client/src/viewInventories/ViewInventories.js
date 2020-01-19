@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Table from '../common/table/Table';
 import './viewInventories.css';
 
@@ -6,18 +7,29 @@ export default function ViewInventories({ books }) {
 	const [ state, setState ] = useState({ searchValue: '', curPage: 1, startCount: 0 });
 
 	const numPerPage = 10;
-	const numOfPages = Math.ceil(books.length / numPerPage);
+	let numOfPages = Math.ceil(books.length / numPerPage);
+	let totalNoOfPages = books.length;
 	let defaultBookValues = [ ...Array(numOfPages) ].map((e) => Array(0));
-	if (!state.searchValue) {
+	let listCount = [ { listStart: 1, listEnd: books.length > numPerPage ? numPerPage : books.length } ];
+	let lStart = 1;
+	console.log(defaultBookValues);
+	if (!state.searchValue && books.length > 0) {
+		console.log('Iamhere');
 		let j = 0;
 		for (let i = 0; i < books.length; i++) {
-			const { ISBN, bookTitle, author, NoOfCopies, categoryOfBook } = books[i];
-			if (i > 0 && i % numPerPage === 0) {
+			const { ISBN, bookTitle, author, NoOfCopies, categoryOfBook, _id } = books[i];
+			if (defaultBookValues[j].length !== 0 && defaultBookValues[j].length % numPerPage === 0) {
 				j = j + 1;
-				console.log(j);
+				lStart = lStart + numPerPage;
+
+				listCount.push({
+					listStart: lStart,
+					listEnd: lStart - 1 + (books.length - i < numPerPage ? books.length - i : numPerPage)
+				});
 			}
+
 			defaultBookValues[j].push({
-				ISBN,
+				ISBN: <Link to={`/viewInventories/${_id}`}>{ISBN}</Link>,
 				bookTitle,
 				author,
 				NoOfCopies,
@@ -28,58 +40,68 @@ export default function ViewInventories({ books }) {
 		const { searchValue } = state;
 		const searchValLower = searchValue.toLowerCase();
 		if (searchValue) {
-			console.log('helooooooer');
-			defaultBookValues = [ ...Array(numOfPages) ].map((e) => Array(0))
+			defaultBookValues = [ ...Array(numOfPages) ].map((e) => Array(0));
 			let j = 0;
+			let foundBoooks = 0;
+			listCount = [];
 			for (let i = 0; i < books.length; i++) {
 				const { ISBN, bookTitle, author, NoOfCopies, categoryOfBook } = books[i];
+
 				if (
 					bookTitle.toLowerCase().includes(searchValLower) ||
 					author.toLowerCase().includes(searchValLower) ||
 					ISBN.includes(searchValLower) ||
 					categoryOfBook.toLowerCase().includes(searchValLower)
 				) {
-					if (i > 0 && i % numPerPage === 0) {
+					foundBoooks++;
+					if (defaultBookValues[j].length !== 0 && defaultBookValues[j].length % numPerPage === 0) {
 						j = j + 1;
-						console.log(j);
 					}
-					console.log(books[i]);
 					defaultBookValues[j].push({
-                        ISBN,
-                        bookTitle,
-                        author,
-                        NoOfCopies,
-                        categoryOfBook
-                    });
+						ISBN: <Link to={`/viewInventories/${ISBN}`}>{ISBN}</Link>,
+						bookTitle,
+						author,
+						NoOfCopies,
+						categoryOfBook
+					});
 				}
 			}
+			if (foundBoooks > 0) {
+				lStart = 1;
+				for (let i = 0; i < foundBoooks; i++) {
+					if (i % numPerPage == 0) {
+						listCount.push({
+							listStart: lStart,
+							listEnd: lStart - 1 + (foundBoooks - i < numPerPage ? foundBoooks - i : numPerPage)
+						});
+						lStart = lStart + numPerPage;
+					}
+				}
+			}
+			totalNoOfPages = foundBoooks;
+			numOfPages = Math.ceil(foundBoooks / numPerPage);
 		}
 	}
 
-	useEffect(
-		() => {
-			console.log(state);
-		},
-		[ state, defaultBookValues ]
-	);
+	useEffect(() => {}, [ state, defaultBookValues ]);
 
 	const handlechange = (e) => {
-		console.log(e.target.value);
-		setState({ [e.target.name]: e.target.value });
+		setState({ ...state, [e.target.name]: e.target.value });
 	};
 	const handlePrevClick = () => {
 		if (curPage > 1) {
-			setState({ curPage: curPage - 1, startCount: startCount - 1 });
+			setState({ ...state, curPage: curPage - 1, startCount: startCount - 1 });
 		}
 	};
 	const handleNextClick = () => {
 		if (curPage < numOfPages) {
-			setState({ curPage: curPage + 1, startCount: startCount + 1 });
+			setState({ ...state, curPage: curPage + 1, startCount: startCount + 1 });
 		}
 	};
-	console.log(defaultBookValues);
+
 	const tableHeader = [ 'ISBN', 'bookTitle', 'author', 'NoOfCopies', 'categoryOfBook' ];
 	const { searchValue, curPage, startCount } = state;
+
 	return (
 		<div>
 			<div className="search-parent utils-mg-bt-small">
@@ -93,11 +115,25 @@ export default function ViewInventories({ books }) {
 				/>
 				<input title="Search" value="" type="submit" className="button-search" />
 			</div>
-			<Table tableData={defaultBookValues[startCount]} tableHeader={tableHeader} />
-			<div>
-				<span>pages {`${curPage} of ${numOfPages}`}</span>
-				<span onClick={handlePrevClick}>prev</span>
-				<span onClick={handleNextClick}>next</span>
+			<div className="inventory-table">
+				{listCount[startCount] &&
+				totalNoOfPages > 0 && (
+					<div className="utils-mg-bt-vsmall text-center">
+						Listing{`${listCount[startCount].listStart} - ${listCount[startCount]
+							.listEnd} of ${totalNoOfPages}`}
+					</div>
+				)}
+				<Table
+					tableData={!defaultBookValues[startCount] ? defaultBookValues : defaultBookValues[startCount]}
+					tableHeader={tableHeader}
+				/>
+				{numOfPages > 0 && (
+					<div className="utils-mg-tp-vsmall text-center">
+						<span onClick={handlePrevClick} className="pointer">&#60;</span>
+						<span>pages {`${curPage} of ${numOfPages}`}</span>
+						<span onClick={handleNextClick} className="pointer">&#62;</span>
+					</div>
+				)}
 			</div>
 		</div>
 	);

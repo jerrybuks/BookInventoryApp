@@ -52,7 +52,6 @@ export default function Register(props) {
     return (
         <div className="bg-primaryShade">
             <FormNavBar />
-             <Alerts />
             <div className="form-Container">   
                 <form onSubmit={onSubmit}>
                     <h2>Sign Up!</h2>

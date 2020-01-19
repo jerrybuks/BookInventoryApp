@@ -51,9 +51,13 @@
   .search-parent > .button-search:hover {
     background-color: rgba(0, 150, 136, 0.8);
   }
-
+  .inventory-table{
+    clear: both; 
+    padding : 1rem;
+}
   @media(max-width: 600px) {
     .search-parent {
+      margin-top: 4.5rem;
         margin-left: 20px;
       }
   }

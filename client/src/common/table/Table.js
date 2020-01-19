@@ -3,7 +3,7 @@ import "./Table.css"
 export default function Table({ tableHeader, tableData }) {
 	console.log(tableData)
 	return (
-		<div>
+		<div className="utils-overflow-auto">
 			<table className="tableData">
                 {tableHeader && <thead>
                     <tr>{tableHeader.map((curHeader, index) => (<th  key={index}>{curHeader}</th>))}</tr>

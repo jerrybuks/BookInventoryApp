@@ -6,12 +6,12 @@ import AlertContext from '../context/alert/alertContext'
 import BookContext from '../context/book/bookContext'
 import Alerts from '../common/alert/Alerts'
 
-export default function AddInventory(props) {
+export default function AddInventory({bookDetails, edit, onCancel}) {
     const authContext = useContext(AuthContext);
     const alertContext = useContext(AlertContext);
     const bookContext = useContext(BookContext)
 
-    const { addBook, book, error, clearBookState } = bookContext;
+    const { addBook, book, editBook, error, clearBookState } = bookContext;
     const { setAlert } = alertContext;
     console.log(bookContext)
     useEffect(() => {
@@ -26,17 +26,33 @@ export default function AddInventory(props) {
     }, [book, error])
 
     console.log(authContext)
+    let initialState = {};
+    console.log("++++++++++++++++++",bookDetails)
+    if(bookDetails){
+        initialState = {
+            bookTitle: bookDetails.bookTitle,
+            categoryOfBook: bookDetails.categoryOfBook,
+            ISBN: bookDetails.ISBN,
+            author:  bookDetails.author,
+            edition: bookDetails.edition,
+            NoOfCopies: bookDetails.NoOfCopies,
+            publisher: bookDetails.publisher,
+            publicationDate: bookDetails.publicationDate,
+        }
+    } else {
+        initialState = {
+            bookTitle: "",
+            categoryOfBook: "non-fiction",
+            ISBN: "",
+            author: "" ,
+            edition:  "",
+            NoOfCopies: 1,
+            publisher:  "",
+            publicationDate: "",
+        }
+    }
     const { user: { user: { _id } } } = authContext
-    const [state, setState] = useState({
-        bookTitle: "",
-        categoryOfBook: "non-fiction",
-        ISBN: "",
-        author: "",
-        edition: "",
-        NoOfCopies: 1,
-        publisher: "",
-        publicationDate: "",
-    })
+    const [state, setState] = useState(initialState)
     onchange = (e) => {
         setState({ ...state, [e.target.name]: e.target.value })
         console.log(state)
@@ -49,18 +65,23 @@ export default function AddInventory(props) {
             user: _id
         }
         console.log(bookData)
-        addBook(bookData)
+        if(edit) {
+            editBook(bookData,bookDetails._id)
+            onCancel();
+        } else {
+            addBook(bookData)
+        }
+        
     }
-    const { bookTitile, categoryOfBook, ISBN, author, edition, NoOfCopies, publisher, publicationDate } = state
+    const { bookTitle, categoryOfBook, ISBN, author, edition, NoOfCopies, publisher, publicationDate } = state
     return (
         <div className="form-inventory">
-            <Alerts />
-            <form>
+            <form className="utils-mg-tp-small">
                 <h3 className="form-inventory__header">Add Inventory</h3>
                 <fieldset className="form-inventory__body">
                     <div>
                         <label htmlFor="bookTitle"> Book title :</label>
-                        <input id="bookTitle" name="bookTitle" type="text" value={bookTitile} onChange={onchange} required />
+                        <input id="bookTitle" name="bookTitle" type="text" value={bookTitle} onChange={onchange} required />
                     </div>
                     <div>
                         <label htmlFor="categoryOfBook"> Category of Book :</label>

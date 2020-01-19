@@ -12,4 +12,8 @@ export const ADD_BOOK = 'ADD_BOOK';
 export const GET_BOOKS = 'GET_BOOKS';
 export const BOOK_ERROR = 'BOOK_ERROR';
 export const CLEAR_BOOK = 'CLEAR_BOOK';
+export const DELETE_BOOK = 'DELETE_BOOK'
+export const CLEAR_STATUS = 'CLEAR_STATUS'
+
+
 

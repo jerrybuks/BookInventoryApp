@@ -85,13 +85,42 @@ button:focus {outline:0;}
 .utils-mg-bt-big {
   margin-bottom: 4rem;
 }
+.utils-mg-rt-small {
+  margin-right: 2rem;
+}
 .utils-mg-bt-small {
   margin-bottom: 2rem;
+}
+.utils-mg-tp-small {
+  margin-top: 2rem;
+}
+.utils-pd-vsmall {
+  padding: 1rem;
+}
+.utils-mg-bt-vsmall {
+  margin-bottom: 1rem;
+}
+.utils-mg-tp-vsmall {
+  margin-top: 1rem;
 }
 .align-center {
   display: flex;
   justify-content: center;
 }
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  overflow: hidden;
+}
 .text-center {
   text-align: center;
 }
+@media(max-width: 600px) {
+  .utils-pd-small {
+    padding: 5px;
+  }
+  .utils-overflow-auto{
+    overflow: auto;
+  }
+}
+.pointer{cursor:pointer}
